@@ -1,1 +1,2 @@
 # rabbitmq-management-alpine
+This image is cloned from [SamYaple image](https://github.com/SamYaple/rabbitmq-clusterer), but this one uses the alpine image as base, so the entrypoint file had to be modified.
