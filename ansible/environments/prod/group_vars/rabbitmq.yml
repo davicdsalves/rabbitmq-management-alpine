@@ -1,0 +1,15 @@
+docker_image: rabbitmq:3.6.9-management-alpine
+clusterer_plugin_version: 1.0.3
+rabbitmq_cookie: LDCGUCZOWAZJNAXLUMQB
+rabbitmq_vhost: myvhost
+app_volumes:
+  - /app/rabbitmq/rabbitmq-database/:/var/lib/rabbitmq
+  - /app/rabbitmq/logs/:/var/log/rabbitmq
+app_envs:
+  - RABBITMQ_ERLANG_COOKIE={{ rabbitmq_cookie }}
+  - RABBITMQ_DEFAULT_VHOST={{ rabbitmq_vhost }}
+  - RABBITMQ_BOOT_MODULE=rabbit_clusterer
+  - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-pa /plugins/rabbitmq_clusterer.ez/rabbitmq_clusterer-{{ clusterer_plugin_version }}/ebin
+  - RABBITMQ_CLUSTERER_GOSPEL_NODE={{ groups['rabbitmq'][0] }}
+  - RABBITMQ_CLUSTERER_NODE_1={{ groups['rabbitmq'][0] }},disc
+  - RABBITMQ_CLUSTERER_NODE_2={{ groups['rabbitmq'][1] }},disc

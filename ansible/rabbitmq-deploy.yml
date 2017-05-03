@@ -1,0 +1,10 @@
+---
+- hosts: rabbitmq
+  vars:
+    app_name: rabbitmq
+    app_dir: /app/rabbitmq
+  become: yes
+  gather_facts: true
+  become_user: ec2-user
+  roles:
+    - { role: rabbitmq-deploy }

@@ -1,0 +1,19 @@
+---
+  - name: Pull rabbitmq image
+    shell: docker pull {{ docker_image }}
+
+  - name: Create directory if needed
+    file: path={{ app_dir }} state=directory
+
+  - name: Generate docker-compose.yml
+    template:
+      src: ../templates/docker-compose.j2
+      dest: "{{ app_dir }}/docker-compose.yml"
+
+  - name: Create rabbitmq container
+    docker_service:
+      stopped: yes
+      project_src: "{{ app_dir }}"
+
+  - name: Start rabbitmq container
+    shell: docker start {{ app_name }}

@@ -1,0 +1,23 @@
+version: '2'
+services:
+  {{ app_name }}:
+    image: {{ docker_image }}
+    restart: unless-stopped
+    container_name: {{ app_name }}
+    network_mode: host
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "4"
+    {% if app_volumes is defined %}
+    volumes:
+      {% for volume in app_volumes %}
+      - {{ volume }}
+      {% endfor %}
+    {% endif %}
+    {% if app_envs is defined %}
+    environment:
+      {% for env in app_envs %}
+      - {{ env }}
+      {% endfor %}
+    {% endif %}
